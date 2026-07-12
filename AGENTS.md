@@ -1,4 +1,12 @@
-## Development
+# AGENTS.md
+
+This repo contains an Astro Starlight site for a _Technical Writer's Guide to AI_.
+
+## Design system
+
+This project uses [the Impeccable design system](https://impeccable.style/), with corresponding [PRODUCT](./PRODUCT.md) and [DESIGN](./DESIGN.md) files.
+
+## Astro: development
 
 When starting the dev server, use background mode:
 
@@ -8,7 +16,7 @@ astro dev --background
 
 Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
 
-## Documentation
+## Astro: documentation
 
 Full documentation: https://docs.astro.build
 
