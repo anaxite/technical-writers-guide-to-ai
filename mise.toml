@@ -1,0 +1,3 @@
+[tools]
+node = { version = "26", postinstall = "npm install -g agent-browser mdx2vast" }
+pnpm = "11"
