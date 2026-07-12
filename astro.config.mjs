@@ -8,8 +8,8 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			plugins: [starlightThemeExquisitus()],
-			title: 'My Docs',
-			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
+			title: "The technical writer's guide to AI",
+			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/anaxite/technical-writers-guide-to-ai' }],
 			sidebar: [
 				{
 					label: 'Guides',
