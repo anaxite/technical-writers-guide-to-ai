@@ -18,8 +18,8 @@ importers:
         specifier: ^0.34.5
         version: 0.34.5
       starlight-theme-exquisitus:
-        specifier: ^1.0.2
-        version: 1.0.2(@astrojs/starlight@0.41.3(@astrojs/markdown-remark@7.2.1)(astro@7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)))
+        specifier: ^1.0.3
+        version: 1.0.3(@astrojs/starlight@0.41.3(@astrojs/markdown-remark@7.2.1)(astro@7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)))
 
 packages:
 
@@ -1728,8 +1728,8 @@ packages:
   space-separated-tokens@2.0.2:
     resolution: {integrity: sha512-PEGlAwrG8yXGXRjW32fGbg66JAlOAwbObuqVoJpv/mRgoWDQfgH1wDPvtzWyUSNAXBGSk8h755YDbbcEy3SH2Q==}
 
-  starlight-theme-exquisitus@1.0.2:
-    resolution: {integrity: sha512-0L7RIO8LIwxWn0Bc9YodYoztyuHub2N913zReTYxuCbmdaTDFa+/3X4PbAnFAqU9cvSz9tjdQMPnkdy8Sx70rA==}
+  starlight-theme-exquisitus@1.0.3:
+    resolution: {integrity: sha512-cfTJjkXJa6WlixZVDQBhVF5DWWzpu7e7EELSIWgCNhYvG5CLRiiVAIrxhDmQOv03ncOXAMyPafxg9YMfLK2YcA==}
     engines: {node: '>=22.12.0'}
     peerDependencies:
       '@astrojs/starlight': '>=0.41.1'
@@ -4185,7 +4185,7 @@ snapshots:
 
   space-separated-tokens@2.0.2: {}
 
-  starlight-theme-exquisitus@1.0.2(@astrojs/starlight@0.41.3(@astrojs/markdown-remark@7.2.1)(astro@7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1))):
+  starlight-theme-exquisitus@1.0.3(@astrojs/starlight@0.41.3(@astrojs/markdown-remark@7.2.1)(astro@7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1))):
     dependencies:
       '@astrojs/starlight': 0.41.3(@astrojs/markdown-remark@7.2.1)(astro@7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1))
       '@fontsource-variable/atkinson-hyperlegible-next': 5.2.6
