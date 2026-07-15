@@ -7,6 +7,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "deploy": "astro build && wrangler deploy",
     "lint:rumdl": "rumdl check",
     "lint:vale": "vale .",
     "lint:links": "lychee --config .config/lychee.toml './src/content/**/*.md' './src/content/**/*.mdx' './README.md'",
@@ -19,6 +20,7 @@
     "starlight-theme-exquisitus": "^1.1.1"
   },
   "devDependencies": {
-    "starlight-links-validator": "^0.25.2"
+    "starlight-links-validator": "^0.25.2",
+    "wrangler": "^4.110.0"
   }
 }

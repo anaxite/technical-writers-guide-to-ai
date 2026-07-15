@@ -56,3 +56,25 @@ The build (internal link) job runs when content, config, or components change, s
 
 Workflow actions are SHA-pinned with a trailing `# vX.Y.Z` version comment.
 Dependabot (`.github/dependabot.yml`) keeps both the pinned SHA and the comment current.
+
+## Deployment
+
+The site deploys to [Cloudflare Workers](https://developers.cloudflare.com/workers/) as
+[static assets](https://developers.cloudflare.com/workers/static-assets/).
+Astro's static build output (`dist/`) is uploaded and served from the edge — there is
+no Worker script and no SSR adapter. Config is in `wrangler.jsonc`.
+
+Deployment is **manual**: the `Deploy` GitHub Actions workflow
+(`.github/workflows/deploy.yml`) runs only via `workflow_dispatch` ("Run workflow" in the
+Actions tab). A commented-out `push` trigger is left in place as a placeholder for a
+future deploy-on-merge-to-`main` flow.
+
+Deploy locally with `pnpm run deploy` (builds, then `wrangler deploy`).
+
+The workflow authenticates with two repository secrets, set under
+**Settings → Secrets and variables → Actions**:
+
+- `CLOUDFLARE_ACCOUNT_ID` — the Cloudflare account ID.
+- `CLOUDFLARE_API_TOKEN` — an API token created from the **Edit Cloudflare Workers**
+  template (Workers Scripts: Edit + Account Settings: Read; add the zone permissions only
+  once a custom domain is attached).

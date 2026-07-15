@@ -6,6 +6,11 @@ dist/
 # dependencies
 node_modules/
 
+# wrangler local state
+.wrangler/
+# wrangler local secrets
+.dev.vars
+
 # lychee link-checker cache and output
 .lycheecache
 lychee/

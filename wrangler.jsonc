@@ -1,0 +1,15 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "technical-writers-guide-to-ai",
+  // Set to the project's setup date; bump deliberately when adopting new
+  // runtime behavior. See https://developers.cloudflare.com/workers/configuration/compatibility-dates/
+  "compatibility_date": "2026-07-15",
+  // Static-assets-only Worker: no `main`, so Cloudflare serves ./dist directly.
+  "assets": {
+    "directory": "./dist"
+  }
+  // Future custom domain (must be a zone on this Cloudflare account):
+  // "routes": [
+  //   { "pattern": "docs.example.com", "custom_domain": true }
+  // ]
+}
