@@ -1,0 +1,32 @@
+# Dependabot keeps dependencies up to date.
+# For GitHub Actions it bumps both the pinned SHA and the trailing `# vX.Y.Z`
+# version comment together, so the SHA pins in workflows don't go stale.
+# Docs: https://docs.github.com/code-security/dependabot/dependabot-version-updates
+version: 2
+updates:
+  # GitHub Actions used in workflows (SHA-pinned; see .github/workflows/).
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: chore(ci)
+    groups:
+      # One PR per week for all action bumps, rather than one per action.
+      github-actions:
+        patterns:
+          - '*'
+
+  # Project dependencies (pnpm / npm ecosystem).
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: chore(deps)
+    groups:
+      # Group non-major updates to keep the PR count low; majors stay separate.
+      minor-and-patch:
+        update-types:
+          - minor
+          - patch
