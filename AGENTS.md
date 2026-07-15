@@ -28,3 +28,10 @@ Consult these guides before working on related tasks:
 - [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+
+## Linting + Formatting
+
+- Vale linter for MD/MDX prose.
+  - `.vale.ini` config file in root
+  - Vale styles are in `.config/styles`
+- Rumdl linter for MD/MDX structure. Config file is in `.config/.rumdl.toml`
