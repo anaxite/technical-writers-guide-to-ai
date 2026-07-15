@@ -6,7 +6,10 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "lint:rumdl": "rumdl check",
+    "lint:vale": "vale .",
+    "format:rumdl": "rumdl fmt"
   },
   "dependencies": {
     "@astrojs/starlight": "^0.41.3",
