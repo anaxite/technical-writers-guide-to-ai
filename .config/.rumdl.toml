@@ -1,0 +1,49 @@
+# rumdl configuration file
+
+## Global configuration options
+[global]
+
+# List of file/directory patterns to include for linting (if provided, only these will be linted)
+include = [
+   "src/**/*.md",
+   "src/**/*.mdx",
+   "README.md"
+]
+
+# List of file/directory patterns to exclude from linting
+exclude = [
+    # Common directories to exclude
+    ".git",
+    ".github",
+    "node_modules",
+    "vendor",
+    "dist",
+    "build",
+]
+
+# Respect .gitignore files when scanning directories (default: true)
+respect-gitignore = true
+
+# Markdown flavor/dialect
+# "pandoc" most closely matches Sätteri's syntax
+flavor = "pandoc"
+
+[per-file-flavor]
+"**/*.mdx" = "mdx"
+
+# Rule-specific configurations
+[MD003]
+style = "atx"  # Heading style (atx, atx_closed, setext)
+
+[MD013] # Reflow lines per sentence, for better git integration
+line-length = 120
+reflow = true
+reflow-mode = "sentence-per-line"
+code-blocks = false  # Exclude code blocks from line length check
+tables = false  # Exclude tables from line length check
+
+[MD025] # Make sure 'title:' field is used in frontmatter
+front-matter-title = "title"
+
+[MD055] # Table pipe style
+style = "leading-and-trailing"
