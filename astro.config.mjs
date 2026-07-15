@@ -9,19 +9,16 @@ export default defineConfig({
 		starlight({
 			plugins: [starlightThemeExquisitus()],
 			title: "The technical writer's guide to AI",
+			description:
+				'A collaborative record of how technical writers are actually using AI, and what it cost them. Most of the questions are still open.',
+			// Site-level styles only; Exquisitus owns the visual system. The cascade
+			// layer order this file relies on is declared inside it — see the comment there.
+			customCss: ['./src/styles/site.css'],
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/anaxite/technical-writers-guide-to-ai' }],
 			sidebar: [
-				{
-					label: 'Guides',
-					items: [
-						// Each item here is one entry in the navigation menu.
-						{ label: 'Example Guide', slug: 'guides/example' },
-					],
-				},
-				{
-					label: 'Reference',
-					items: [{ autogenerate: { directory: 'reference' } }],
-				},
+				{ label: 'Home', slug: 'index' },
+				{ label: 'About this guide', slug: 'about' },
+				{ label: 'Contribute', slug: 'contribute' },
 			],
 		}),
 	],

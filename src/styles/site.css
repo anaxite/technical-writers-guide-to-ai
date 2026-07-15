@@ -1,0 +1,35 @@
+/*
+ * Site styles for The technical writer's guide to AI.
+ *
+ * Exquisitus owns the visual system (see DESIGN.md); nothing here restyles the
+ * reading column, the chrome, or the palette. This file adds only the two
+ * surfaces the splash needs and the theme does not ship: the hero question
+ * plate and the ground-rules list.
+ *
+ * Layer order is load-bearing. The theme appends its own stylesheets *after*
+ * whatever the site passes in `customCss`, so `layers.css` would otherwise be
+ * the first file to name the layers — and a `twg` layer declared later would
+ * sort *below* `exquisitus` and lose every cascade fight. Declaring the full
+ * order here, while this file is still the first to load, puts `twg` on top
+ * where site-level rules belong, and keeps `!important` out of the project.
+ */
+@layer starlight, exquisitus, twg;
+
+@layer twg {
+	/* ───────────────────────────── Site title ────────────────────────────── */
+	/* "The technical writer's guide to AI" is a long name for a header bar, and
+	   Starlight clips it mid-word ("…guide to A") on a phone. Ease the type down
+	   where it's tight and let it truncate honestly if it still doesn't fit. */
+	.site-title {
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	@media (max-width: 50rem) {
+		.site-title {
+			font-size: var(--sl-text-sm);
+		}
+	}
+}
