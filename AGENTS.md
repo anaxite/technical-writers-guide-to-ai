@@ -57,6 +57,12 @@ The build (internal link) job runs when content, config, or components change, s
 Workflow actions are SHA-pinned with a trailing `# vX.Y.Z` version comment.
 Dependabot (`.github/dependabot.yml`) keeps both the pinned SHA and the comment current.
 
+## CI: Node and pnpm setup
+
+Any CI job that needs Node or pnpm must use the local composite action `./.github/actions/setup-node-pnpm` (after `actions/checkout`) rather than `setup-node`/`pnpm/action-setup` with hardcoded versions.
+The composite action installs Node and pnpm via [mise-action](https://github.com/jdx/mise-action) from `mise.production.toml`, so CI versions are controlled from a central location.
+It also restores the pnpm store cache and runs `pnpm install --frozen-lockfile`.
+
 ## Deployment
 
 The site deploys to [Cloudflare Workers](https://developers.cloudflare.com/workers/) as

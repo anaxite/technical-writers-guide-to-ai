@@ -1,0 +1,32 @@
+name: Set up Node and pnpm
+description: >-
+  Install Node and pnpm from mise.toml (the single source of truth), restore the
+  pnpm store cache, and install dependencies with a frozen lockfile. Use this in
+  any job that needs Node or pnpm so CI versions never drift from local dev.
+
+env:
+  MISE_ENV: production
+
+runs:
+  using: composite
+  steps:
+    # Install exactly the Node and pnpm versions declared in mise.toml.
+    - name: Install Node and pnpm from mise.toml
+      uses: jdx/mise-action@e6a8b3978addb5a52f2b4cd9d91eafa7f0ab959d # v4.2.0
+
+    # mise-action caches the tool binaries but not the pnpm store, so cache it
+    # ourselves keyed on the lockfile.
+    - name: Locate pnpm store
+      shell: bash
+      run: echo "PNPM_STORE_PATH=$(pnpm store path --silent)" >> "$GITHUB_ENV"
+
+    - name: Restore pnpm store cache
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: ${{ env.PNPM_STORE_PATH }}
+        key: pnpm-store-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+        restore-keys: pnpm-store-${{ runner.os }}-
+
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile
