@@ -1,0 +1,114 @@
+name: Links
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Allow the lychee job to post a sticky comment on pull requests.
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: links-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Detect which kinds of files changed, so the link jobs only run when relevant.
+  # Runs once and exposes booleans the downstream jobs gate on.
+  changes:
+    name: Detect changes
+    runs-on: ubuntu-latest
+    outputs:
+      # Content prose — gates the external link check.
+      content: ${{ steps.filter.outputs.content_any_changed }}
+      # Content plus anything that can affect internal links/anchors at build
+      # time (config, sidebar, components) — gates the build.
+      buildable: ${{ steps.filter.outputs.buildable_any_changed }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Detect changed files
+        id: filter
+        uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
+        with:
+          files_yaml: |
+            content:
+              - 'src/content/**/*.md'
+              - 'src/content/**/*.mdx'
+              - 'README.md'
+            buildable:
+              - 'src/**'
+              - 'README.md'
+              - 'astro.config.mjs'
+              - 'package.json'
+              - 'pnpm-lock.yaml'
+
+  # Internal links + heading anchors are validated by starlight-links-validator,
+  # which runs as part of `astro build` and fails the build on any broken link.
+  internal:
+    name: Internal links (build)
+    needs: changes
+    if: ${{ needs.changes.outputs.buildable == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+        with:
+          version: 11
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 26
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build (validates internal links and anchors)
+        run: pnpm build
+
+  # External links are checked separately so flaky, slow, or rate-limited
+  # third-party sites can't block the build.
+  external:
+    name: External links (lychee)
+    needs: changes
+    if: ${{ needs.changes.outputs.content == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Restore lychee cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .lycheecache
+          key: cache-lychee-${{ github.sha }}
+          restore-keys: cache-lychee-
+
+      - name: Check external links
+        id: lychee
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        with:
+          args: >-
+            --config .config/lychee.toml
+            --no-progress
+            './src/content/**/*.md'
+            './src/content/**/*.mdx'
+            './README.md'
+          fail: ${{ github.event_name == 'push' }}
+          format: markdown
+          output: lychee/out.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Comment broken links on PR
+        if: ${{ github.event_name == 'pull_request' && steps.lychee.outputs.exit_code != 0 }}
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
+        with:
+          header: lychee
+          path: lychee/out.md
+
+      - name: Fail if broken external links were found
+        if: ${{ github.event_name == 'pull_request' && steps.lychee.outputs.exit_code != 0 }}
+        run: exit 1

@@ -1,0 +1,38 @@
+# lychee configuration — external link checking for CI.
+#
+# Internal links and heading anchors are validated at build time by
+# starlight-links-validator (see astro.config.mjs). lychee's job here is
+# strictly the external (http/https) links a build-time validator can't reach.
+#
+# Root-relative links like `/contribute/` are Starlight routes, not filesystem
+# paths, so lychee can't resolve them locally. We give it a placeholder
+# `base_url` so those links resolve to that host, then exclude the host — the
+# net effect is that lychee only ever checks genuinely external links, leaving
+# every internal link to starlight-links-validator.
+#
+# Docs: https://lychee.cli.rs/
+
+# Placeholder host that root-relative links resolve against, then get excluded.
+base_url = "https://internal.invalid"
+
+# Skip localhost, loopback, and private IP ranges.
+exclude_all_private = true
+
+exclude = [
+  # The placeholder base — i.e. all internal, root-relative site routes.
+  '^https?://internal\.invalid',
+]
+
+# Don't treat rate-limiting (429) as a hard failure.
+accept = ["200..=299", "429"]
+
+# Retry transient network errors before giving up.
+max_retries = 2
+retry_wait_time = 2
+
+# Some sites reject the default user agent.
+user_agent = "Mozilla/5.0 (compatible; lychee link checker)"
+
+# Cache results between runs to reduce requests and avoid rate limits.
+cache = true
+max_cache_age = "1d"

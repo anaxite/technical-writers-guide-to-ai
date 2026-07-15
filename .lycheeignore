@@ -1,0 +1,6 @@
+# Links lychee should always skip. One regex or URL per line; `#` starts a comment.
+# See https://lychee.cli.rs/recipes/excluding-links/
+
+# Skip mailto/tel links — nothing to resolve over the network.
+^mailto:
+^tel:

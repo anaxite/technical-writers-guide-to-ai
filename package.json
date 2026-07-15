@@ -9,6 +9,7 @@
     "astro": "astro",
     "lint:rumdl": "rumdl check",
     "lint:vale": "vale .",
+    "lint:links": "lychee --config .config/lychee.toml './src/content/**/*.md' './src/content/**/*.mdx' './README.md'",
     "format:rumdl": "rumdl fmt"
   },
   "dependencies": {
@@ -16,5 +17,8 @@
     "astro": "^7.0.9",
     "sharp": "^0.34.5",
     "starlight-theme-exquisitus": "^1.1.1"
+  },
+  "devDependencies": {
+    "starlight-links-validator": "^0.25.2"
   }
 }

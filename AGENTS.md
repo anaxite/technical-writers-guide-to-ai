@@ -34,4 +34,25 @@ Consult these guides before working on related tasks:
 - Vale linter for MD/MDX prose.
   - `.vale.ini` config file in root
   - Vale styles are in `.config/styles`
-- Rumdl linter for MD/MDX structure. Config file is in `.config/.rumdl.toml`
+- Rumdl linter for MD/MDX structure. Config file is in `.config/rumdl.toml`
+
+## Link checking
+
+Link checking is split into two layers by responsibility.
+
+- **Internal links and heading anchors** are validated by [starlight-links-validator](https://starlight-links-validator.vercel.app/), configured in `astro.config.mjs`.
+  It runs as part of `astro build` and fails the build on any broken internal link or invalid heading anchor.
+- **External (http/https) links** are checked by [lychee](https://lychee.cli.rs/) in CI.
+  This keeps flaky or rate-limited third-party sites from blocking a build.
+  Config is in `.config/lychee.toml`, and permanent exclusions go in `.lycheeignore`.
+  Run locally with `pnpm lint:links`.
+
+Both layers run in the `Links` GitHub Actions workflow (`.github/workflows/links.yml`) on pushes to `main` and on pull requests.
+On PRs, broken external links are posted as a sticky comment before the job fails.
+
+A `changes` job detects which files changed and gates the two link jobs.
+The external (lychee) job runs only when content prose changes.
+The build (internal link) job runs when content, config, or components change, since those can break internal links too.
+
+Workflow actions are SHA-pinned with a trailing `# vX.Y.Z` version comment.
+Dependabot (`.github/dependabot.yml`) keeps both the pinned SHA and the comment current.
