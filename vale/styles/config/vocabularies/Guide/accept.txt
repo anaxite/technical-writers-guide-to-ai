@@ -1,0 +1,17 @@
+# Project vocabulary: terms Vale should accept as spelled and capitalized here.
+# One entry per line. Entries are case-sensitive Go regexps; a plain word works.
+# Accepted terms are also exempt from capitalization rules like Microsoft.Headings.
+Anthropic
+Astro
+ChatGPT
+Claude
+Copilot
+GitHub
+GitLab
+[Ll]arge language model
+LLM(s)?
+MDX
+OpenAI
+RAG
+Starlight
+Vale
